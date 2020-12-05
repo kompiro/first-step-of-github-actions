@@ -1,0 +1,33 @@
+name: はじめてのワークフロー
+
+# GitHub上で発生したイベントをきっかけに workflow は起動します
+on:
+  # 下記の例は main ブランチに対する push と、 main ブランチへの Pull Request のイベントをきっかけに起動します
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # workflow_dispatch は Actions タブを開くと実行できる workflow として定義できます
+  workflow_dispatch:
+
+# ワークフローは一つ以上のジョブを、直列にも並列にも実行できるように定義できます
+jobs:
+  # このワークフローは `build` という単一jobを定義します
+  build:
+    # このjobを実行する環境を `ubuntu-latest` にします
+    runs-on: ubuntu-latest
+
+    # steps はjobで実行するタスクをならべたものです
+    steps:
+      # $GITHUB_WORKSPACE 以下にリポジトリのコードをチェックアウトし、jobからアクセスできるようにします
+      - uses: actions/checkout@v2
+
+      # runnerのshellを使って単一のコマンドを実行できます
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # runnerのshellを使って複数のコマンドを実行するにはこうします
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
